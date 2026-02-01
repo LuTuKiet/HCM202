@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRANG 1: SIÊU TRÍ TUỆ - HIỂN THỊ TỪ KHÓA</title>
+    <style>
+        /* ===== THIẾT LẬP CHUNG ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ===== HIỆU ỨNG NỀN ĐỘNG - PARTICLES ===== */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1000px) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* ===== CONTAINER CHÍNH ===== */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* ===== TIÊU ĐỀ ===== */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease-in;
+        }
+
+        .main-title {
+            font-size: 3.5em;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5),
+                         0 0 40px rgba(255, 255, 255, 0.3),
+                         3px 3px 6px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.5),
+                             0 0 40px rgba(255, 255, 255, 0.3),
+                             3px 3px 6px rgba(0, 0, 0, 0.3);
+            }
+            to {
+                text-shadow: 0 0 30px rgba(255, 255, 255, 0.8),
+                             0 0 60px rgba(255, 255, 255, 0.5),
+                             3px 3px 6px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #f0f0f0;
+            font-style: italic;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ===== HƯỚNG DẪN ===== */
+        .instructions {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: center;
+        }
+
+        .instructions h3 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 1.6em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .instructions p {
+            color: #f0f0f0;
+            line-height: 1.8;
+            font-size: 1.1em;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ===== PHẦN ĐIỀU KHIỂN ===== */
+        .control-panel {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .start-button {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            font-size: 2em;
+            font-weight: bold;
+            padding: 25px 60px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.5),
+                        0 0 40px rgba(245, 87, 108, 0.3);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .start-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .start-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .start-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(245, 87, 108, 0.6),
+                        0 0 60px rgba(245, 87, 108, 0.4);
+        }
+
+        .start-button:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .start-button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* ===== ĐỒNG HỒ ĐẾM NGƯỢC ===== */
+        .timer {
+            font-size: 5em;
+            font-weight: bold;
+            color: #fff;
+            margin: 30px 0;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.8),
+                         0 0 60px rgba(255, 255, 255, 0.5),
+                         5px 5px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .timer.visible {
+            opacity: 1;
+        }
+
+        .timer.pulse {
+            animation: timerPulse 1s ease-in-out;
+        }
+
+        @keyframes timerPulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.3);
+            }
+        }
+
+        /* ===== LƯỚI TỪ KHÓA VỚI HIỆU ỨNG 3D ===== */
+        .keywords-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            max-width: 1400px;
+            margin: 0 auto;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            perspective: 1000px;
+        }
+
+        .keywords-grid.visible {
+            opacity: 1;
+        }
+
+        .keyword-card {
+            color: white;
+            padding: 30px 20px;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 1.4em;
+            font-weight: bold;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            transform: scale(0) rotateY(180deg);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* ===== HIỆU ỨNG GRADIENT ĐỘNG CHO MỖI THẺ ===== */
+        .keyword-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+        }
+
+        .keyword-card.show {
+            animation: flipIn 0.8s ease forwards;
+        }
+
+        @keyframes flipIn {
+            0% {
+                transform: scale(0) rotateY(180deg) rotateX(180deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2) rotateY(90deg) rotateX(90deg);
+            }
+            100% {
+                transform: scale(1) rotateY(0) rotateX(0);
+                opacity: 1;
+            }
+        }
+
+        .keyword-card:hover {
+            transform: translateY(-10px) scale(1.1) rotateZ(5deg);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+
+        /* ===== MÀU GRADIENT NGẪU NHIÊN CHO MỖI THẺ ===== */
+        .color-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .color-2 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .color-3 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .color-4 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .color-5 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .color-6 { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+        .color-7 { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+        .color-8 { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+        .color-9 { background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%); }
+        .color-10 { background: linear-gradient(135deg, #fdcbf1 0%, #e6dee9 100%); }
+
+        /* ===== HIỆU ỨNG FADE IN ===== */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== NAVIGATION MENU ===== */
+        .nav-menu {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .nav-button {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 15px 40px;
+            margin: 0 10px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 30px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2em;
+            }
+
+            .start-button {
+                font-size: 1.3em;
+                padding: 20px 40px;
+            }
+
+            .timer {
+                font-size: 3em;
+            }
+
+            .keyword-card {
+                font-size: 1.1em;
+                padding: 25px 15px;
+            }
+
+            .keywords-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 15px;
+            }
+
+            .nav-button {
+                display: block;
+                margin: 10px auto;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- PARTICLES BACKGROUND -->
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+        <!-- TIÊU ĐỀ CHÍNH -->
+        <div class="header">
+            <h1 class="main-title">🌟 SIÊU TRÍ TUỆ 🌟</h1>
+            <h2 class="main-title" style="font-size: 2.2em;">TƯ TƯỞNG HỒ CHÍ MINH</h2>
+            <p class="subtitle">✨ TRANG 1: HIỂN THỊ TỪ KHÓA ✨</p>
+        </div>
+
+        <!-- HƯỚNG DẪN CHƠI -->
+        <div class="instructions">
+            <h3>📋 HƯỚNG DẪN CHƠI</h3>
+            <p>
+                ✅ Bấm nút để hiện <strong>30 từ khóa</strong> trong <strong>10 giây</strong><br>
+                ✅ Ghi nhớ các từ khóa xuất hiện với hiệu ứng 3D<br>
+                ✅ Trả lời câu hỏi dựa trên gợi ý từ giáo viên<br>
+                ✅ Nhóm nào nhớ nhiều nhất sẽ chiến thắng!
+            </p>
+        </div>
+
+        <!-- NÚT ĐIỀU KHIỂN -->
+        <div class="control-panel">
+            <button class="start-button" id="startButton" onclick="startGame()">
+                <span style="position: relative; z-index: 1;">🚀 HIỆN TỪ KHÓA (10 GIÂY)</span>
+            </button>
+        </div>
+
+        <!-- ĐỒNG HỒ ĐẾM NGƯỢC -->
+        <div class="timer" id="timer"></div>
+
+        <!-- LƯỚI TỪ KHÓA -->
+        <div class="keywords-grid" id="keywordsGrid"></div>
+
+        <!-- MENU ĐIỀU HƯỚNG -->
+        <div class="nav-menu">
+            <a href="trang2-dap-an.html" class="nav-button">📝 TRANG 2: XEM ĐÁP ÁN</a>
+            <a href="trang3-video.html" class="nav-button">🎬 TRANG 3: XEM VIDEO</a>
+        </div>
+    </div>
+
+    <script>
+        // ===== TẠO PARTICLES NỀN ===== 
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // ===== DANH SÁCH 30 TỪ KHÓA =====
+        const keywords = [
+            "Giản dị", "Trung thực", "Đoàn kết", "Tự học", "Kỷ luật",
+            "Tiết kiệm", "Yêu nước", "Trách nhiệm", "Sáng tạo", "Cống hiến",
+            "Nhân ái", "Khiêm tốn", "Lao động", "Nêu gương", "Phục vụ nhân dân",
+            "Chí công vô tư", "Học suốt đời", "Văn hóa", "Lối sống đẹp", "Bản lĩnh",
+            "Hội nhập", "Bảo tồn", "Phát triển", "Gìn giữ", "Lan tỏa",
+            "Kế thừa", "Thực hành", "Hành động", "Giá trị", "Truyền cảm hứng"
+        ];
+
+        // ===== BIẾN TOÀN CỤC =====
+        let isGameRunning = false;
+        let countdownInterval = null;
+
+        // ===== HÀM XÁO TRỘN MẢNG =====
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        // ===== HÀM LẤY MÀU NGẪU NHIÊN =====
+        function getRandomColor() {
+            const colors = ['color-1', 'color-2', 'color-3', 'color-4', 'color-5', 
+                          'color-6', 'color-7', 'color-8', 'color-9', 'color-10'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // ===== HÀM TẠO LƯỚI TỪ KHÓA VỚI HIỆU ỨNG ĐẸP =====
+        function createKeywordsGrid() {
+            const grid = document.getElementById('keywordsGrid');
+            grid.innerHTML = '';
+
+            const shuffledKeywords = shuffleArray(keywords);
+
+            shuffledKeywords.forEach((keyword, index) => {
+                const card = document.createElement('div');
+                card.className = 'keyword-card ' + getRandomColor();
+                card.textContent = keyword;
+                
+                // Delay ngẫu nhiên để tạo hiệu ứng xuất hiện lần lượt
+                setTimeout(() => {
+                    card.classList.add('show');
+                }, index * 50);
+                
+                grid.appendChild(card);
+            });
+        }
+
+        // ===== HÀM ĐẾM NGƯỢC =====
+        function startCountdown() {
+            let timeLeft = 10;
+            const timerElement = document.getElementById('timer');
+            timerElement.classList.add('visible');
+            
+            timerElement.textContent = timeLeft;
+            timerElement.classList.add('pulse');
+
+            countdownInterval = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = timeLeft;
+                timerElement.classList.remove('pulse');
+                
+                setTimeout(() => {
+                    timerElement.classList.add('pulse');
+                }, 10);
+
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    hideKeywords();
+                }
+            }, 1000);
+        }
+
+        // ===== HÀM ẨN TỪ KHÓA =====
+        function hideKeywords() {
+            const grid = document.getElementById('keywordsGrid');
+            const timerElement = document.getElementById('timer');
+            
+            grid.classList.remove('visible');
+            timerElement.classList.remove('visible', 'pulse');
+            
+            setTimeout(() => {
+                grid.innerHTML = '';
+                timerElement.textContent = '';
+                isGameRunning = false;
+                
+                const button = document.getElementById('startButton');
+                button.disabled = false;
+                button.innerHTML = '<span style="position: relative; z-index: 1;">🔄 CHƠI LẠI (10 GIÂY)</span>';
+            }, 500);
+        }
+
+        // ===== HÀM BẮT ĐẦU TRÒ CHƠI =====
+        function startGame() {
+            if (isGameRunning) return;
+            
+            isGameRunning = true;
+            const button = document.getElementById('startButton');
+            button.disabled = true;
+
+            createKeywordsGrid();
+            
+            const grid = document.getElementById('keywordsGrid');
+            setTimeout(() => {
+                grid.classList.add('visible');
+            }, 100);
+
+            startCountdown();
+        }
+
+        // ===== KHỞI TẠO KHI TẢI TRANG =====
+        window.addEventListener('load', () => {
+            createParticles(); // Tạo hiệu ứng particles nền
+            console.log('TRANG 1: Hiển thị từ khóa đã sẵn sàng!');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIÊU TRÍ TUỆ – FPT University</title>
+    <style>
+        /* ===== THIẾT LẬP CHUNG ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fef9e7 0%, #e8f8f5 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* ===== CONTAINER CHÍNH ===== */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* ===== TIÊU ĐỀ ===== */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .main-title {
+            font-size: 3em;
+            color: #c0392b;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #16a085;
+            font-style: italic;
+        }
+
+        /* ===== PHẦN ĐIỀU KHIỂN ===== */
+        .control-panel {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .start-button {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            font-size: 1.8em;
+            font-weight: bold;
+            padding: 20px 50px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 15px rgba(231, 76, 60, 0.3);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .start-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        .start-button:active {
+            transform: translateY(-1px);
+        }
+
+        .start-button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ===== NÚT XEM ĐÁP ÁN ===== */
+        .answer-button {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white;
+            font-size: 1.8em;
+            font-weight: bold;
+            padding: 20px 50px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 15px rgba(39, 174, 96, 0.3);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            margin: 0 15px;
+        }
+
+        .answer-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px rgba(39, 174, 96, 0.4);
+        }
+
+        .answer-button:active {
+            transform: translateY(-1px);
+        }
+
+        /* ===== NÚT VIDEO ===== */
+        .video-button {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            color: white;
+            font-size: 1.8em;
+            font-weight: bold;
+            padding: 20px 50px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 15px rgba(155, 89, 182, 0.3);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            margin: 0 15px;
+        }
+
+        .video-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px rgba(155, 89, 182, 0.4);
+        }
+
+        .video-button:active {
+            transform: translateY(-1px);
+        }
+
+        /* ===== ĐỒNG HỒ ĐẾM NGƯỢC ===== */
+        .timer {
+            font-size: 4em;
+            font-weight: bold;
+            color: #e74c3c;
+            margin: 30px 0;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
+        }
+
+        .timer.visible {
+            opacity: 1;
+        }
+
+        .timer.pulse {
+            animation: pulse 1s ease-in-out;
+        }
+
+        /* ===== LƯỚI TỪ KHÓA ===== */
+        .keywords-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .keywords-grid.visible {
+            opacity: 1;
+        }
+
+        .keyword-card {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 25px 15px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+            transform: scale(0);
+            transition: transform 0.3s ease;
+        }
+
+        .keyword-card.show {
+            animation: popIn 0.5s ease forwards;
+        }
+
+        /* ===== HIỆU ỨNG ===== */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0) rotate(-180deg);
+                opacity: 0;
+            }
+            70% {
+                transform: scale(1.1) rotate(10deg);
+            }
+            100% {
+                transform: scale(1) rotate(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        /* ===== HƯỚNG DẪN ===== */
+        .instructions {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .instructions h3 {
+            color: #16a085;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .instructions p {
+            color: #34495e;
+            line-height: 1.8;
+            font-size: 1.1em;
+        }
+
+        /* ===== KHU VỰC ĐÁP ÁN ===== */
+        .answer-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            background: linear-gradient(135deg, #e8f8f5 0%, #fef9e7 100%);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            display: none;
+            animation: slideDown 0.5s ease;
+        }
+
+        .answer-section.visible {
+            display: block;
+        }
+
+        .answer-section h2 {
+            text-align: center;
+            color: #27ae60;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .question-item {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            border-left: 5px solid #3498db;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .question-item:hover {
+            transform: translateX(10px);
+        }
+
+        .question-number {
+            color: #3498db;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            color: #2c3e50;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .answer-text {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 1.3em;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .final-message {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .final-message h3 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .final-message .highlight {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 20px 0;
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .final-message p {
+            font-size: 1.3em;
+            line-height: 1.8;
+        }
+
+        /* ===== VIDEO PLAYER ===== */
+        .video-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            background: #2c3e50;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            display: none;
+            animation: slideDown 0.5s ease;
+        }
+
+        .video-section.visible {
+            display: block;
+        }
+
+        .video-section h2 {
+            text-align: center;
+            color: #ecf0f1;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            background: #000;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .video-container video {
+            width: 100%;
+            display: block;
+        }
+
+        /* ===== HIỆU ỨNG SLIDE DOWN ===== */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2em;
+            }
+
+            .start-button,
+            .answer-button,
+            .video-button {
+                font-size: 1.3em;
+                padding: 15px 30px;
+                margin: 10px 5px;
+            }
+
+            .timer {
+                font-size: 3em;
+            }
+
+            .keyword-card {
+                font-size: 1.1em;
+                padding: 20px 10px;
+            }
+
+            .keywords-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 15px;
+            }
+
+            .answer-section,
+            .video-section {
+                padding: 20px;
+            }
+
+            .answer-section h2,
+            .video-section h2 {
+                font-size: 1.8em;
+            }
+
+            .question-text {
+                font-size: 1em;
+            }
+
+            .answer-text {
+                font-size: 1.1em;
+            }
+
+            .control-panel {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- TIÊU ĐỀ CHÍNH -->
+        <div class="header">
+            <h1 class="main-title">🌟 SIÊU TRÍ TUỆ 🌟</h1>
+            <h2 class="main-title" style="font-size: 2em;">TƯ TƯỞNG HỒ CHÍ MINH</h2>
+            <p class="subtitle">Học tập và làm theo tư tưởng, đạo đức, phong cách Hồ Chí Minh</p>
+        </div>
+
+        <!-- HƯỚNG DẪN CHƠI -->
+        <div class="instructions">
+            <h3>📋 HƯỚNG DẪN CHƠI</h3>
+            <p>
+                ✅ Bấm nút để hiện <strong>30 từ khóa</strong> trong <strong>10 giây</strong><br>
+                ✅ Ghi nhớ các từ khóa xuất hiện<br>
+                ✅ Trả lời câu hỏi dựa trên gợi ý từ giáo viên<br>
+                ✅ Nhóm nào nhớ nhiều nhất sẽ chiến thắng!
+            </p>
+        </div>
+
+        <!-- NÚT ĐIỀU KHIỂN -->
+        <div class="control-panel">
+            <button class="start-button" id="startButton" onclick="startGame()">
+                🚀 HIỆN TỪ KHÓA (10 GIÂY)
+            </button>
+            <button class="answer-button" id="answerButton" onclick="toggleAnswer()">
+                📝 XEM ĐÁP ÁN
+            </button>
+            <button class="video-button" id="videoButton" onclick="toggleVideo()">
+                🎬 XEM VIDEO ĐỘNG LỰC
+            </button>
+        </div>
+
+        <!-- ĐỒNG HỒ ĐÉM NGƯỢC -->
+        <div class="timer" id="timer"></div>
+
+        <!-- LƯỚI TỪ KHÓA -->
+        <div class="keywords-grid" id="keywordsGrid"></div>
+
+        <!-- KHU VỰC ĐÁP ÁN -->
+        <div class="answer-section" id="answerSection">
+            <h2>📚 ĐÁP ÁN VÀ GIẢI THÍCH</h2>
+            
+            <div class="question-item">
+                <div class="question-number">🟦 CÂU 1:</div>
+                <div class="question-text">Đức tính nổi bật của Bác thể hiện qua lối sống đơn sơ, không xa hoa, luôn đặt lợi ích chung lên trên?</div>
+                <div class="answer-text">✅ Đáp án: GIẢN DỊ</div>
+            </div>
+
+            <div class="question-item">
+                <div class="question-number">🟦 CÂU 2:</div>
+                <div class="question-text">Theo Bác, thế hệ trẻ muốn trưởng thành thì phải học không ngừng, kể cả khi đã thành công?</div>
+                <div class="answer-text">✅ Đáp án: HỌC SUỐT ĐỜI</div>
+            </div>
+
+            <div class="question-item">
+                <div class="question-number">🟦 CÂU 3:</div>
+                <div class="question-text">Giá trị cốt lõi giúp gắn kết con người, tạo nên sức mạnh dân tộc mà Bác luôn nhấn mạnh?</div>
+                <div class="answer-text">✅ Đáp án: ĐOÀN KẾT</div>
+            </div>
+
+            <div class="question-item">
+                <div class="question-number">🟦 CÂU 4:</div>
+                <div class="question-text">Với Gen Z hôm nay, làm theo lời Bác không chỉ là suy nghĩ mà cần điều gì cụ thể trong đời sống hằng ngày?</div>
+                <div class="answer-text">✅ Đáp án: HÀNH ĐỘNG</div>
+            </div>
+
+            <div class="question-item">
+                <div class="question-number">🟦 CÂU 5:</div>
+                <div class="question-text">Di sản văn hóa Hồ Chí Minh không chỉ để trưng bày, mà cần được gìn giữ và lan tỏa như thế nào?</div>
+                <div class="answer-text">✅ Đáp án: PHÁT TRIỂN</div>
+            </div>
+
+            <div class="question-item">
+                <div class="question-number">🟦 CÂU 6:</div>
+                <div class="question-text">Vai trò của thế hệ trẻ trong việc tiếp nối di sản tư tưởng, đạo đức, văn hóa của Bác là gì?</div>
+                <div class="answer-text">✅ Đáp án: KẾ THỪA</div>
+            </div>
+
+            <div class="final-message">
+                <h3>🧠 THÔNG ĐIỆP CUỐI CÙNG</h3>
+                <div class="highlight">
+                    GIẢN DỊ – HỌC SUỐT ĐỜI – ĐOÀN KẾT – HÀNH ĐỘNG – PHÁT TRIỂN – KẾ THỪA
+                </div>
+                <p>
+                    <strong>✨ "Gen Z học tập phong cách giản dị của Bác, học suốt đời, sống đoàn kết, 
+                    biến tư tưởng thành hành động để kế thừa và phát triển di sản văn hóa Hồ Chí Minh."</strong>
+                </p>
+            </div>
+        </div>
+
+        <!-- KHU VỰC VIDEO -->
+        <div class="video-section" id="videoSection">
+            <h2>🎬 VIDEO ĐỘNG LỰC - HỌC TẬP VÀ LÀM THEO BÁC</h2>
+            <div class="video-container">
+                <video id="videoPlayer" controls>
+                    <source src="Dongluc.mp4" type="video/mp4">
+                    Trình duyệt của bạn không hỗ trợ video HTML5.
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== DANH SÁCH 30 TỪ KHÓA =====
+        const keywords = [
+            "Giản dị",
+            "Trung thực",
+            "Đoàn kết",
+            "Tự học",
+            "Kỷ luật",
+            "Tiết kiệm",
+            "Yêu nước",
+            "Trách nhiệm",
+            "Sáng tạo",
+            "Cống hiến",
+            "Nhân ái",
+            "Khiêm tốn",
+            "Lao động",
+            "Nêu gương",
+            "Phục vụ nhân dân",
+            "Chí công vô tư",
+            "Học suốt đời",
+            "Văn hóa",
+            "Lối sống đẹp",
+            "Bản lĩnh",
+            "Hội nhập",
+            "Bảo tồn",
+            "Phát triển",
+            "Gìn giữ",
+            "Lan tỏa",
+            "Kế thừa",
+            "Thực hành",
+            "Hành động",
+            "Giá trị",
+            "Truyền cảm hứng"
+        ];
+
+        // ===== BIẾN TOÀN CỤC =====
+        let isGameRunning = false; // Kiểm tra game đang chạy
+        let countdownInterval = null; // Bộ đếm thời gian
+
+        // ===== HÀM XÁO TRỘN MẢNG (SHUFFLE) =====
+        // Hàm này giúp các từ khóa xuất hiện ở vị trí ngẫu nhiên mỗi lần chơi
+        function shuffleArray(array) {
+            const shuffled = [...array]; // Tạo bản sao để không làm thay đổi mảng gốc
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        // ===== HÀM TẠO LƯỚI TỪ KHÓA =====
+        function createKeywordsGrid() {
+            const grid = document.getElementById('keywordsGrid');
+            grid.innerHTML = ''; // Xóa nội dung cũ
+
+            // Xáo trộn thứ tự từ khóa
+            const shuffledKeywords = shuffleArray(keywords);
+
+            // Tạo thẻ card cho mỗi từ khóa
+            shuffledKeywords.forEach((keyword, index) => {
+                const card = document.createElement('div');
+                card.className = 'keyword-card';
+                card.textContent = keyword;
+                
+                // Delay nhỏ để tạo hiệu ứng xuất hiện lần lượt
+                setTimeout(() => {
+                    card.classList.add('show');
+                }, index * 30); // Mỗi từ xuất hiện cách nhau 30ms
+                
+                grid.appendChild(card);
+            });
+        }
+
+        // ===== HÀM ĐẾM NGƯỢC =====
+        function startCountdown() {
+            let timeLeft = 10; // 10 giây
+            const timerElement = document.getElementById('timer');
+            timerElement.classList.add('visible');
+            
+            // Hiển thị số giây ban đầu
+            timerElement.textContent = timeLeft;
+            timerElement.classList.add('pulse');
+
+            // Đếm ngược mỗi giây
+            countdownInterval = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = timeLeft;
+                timerElement.classList.remove('pulse');
+                
+                // Thêm hiệu ứng pulse mỗi giây
+                setTimeout(() => {
+                    timerElement.classList.add('pulse');
+                }, 10);
+
+                // Khi hết thời gian
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    hideKeywords(); // Ẩn tất cả từ khóa
+                }
+            }, 1000); // Mỗi 1000ms = 1 giây
+        }
+
+        // ===== HÀM ẨN TỪ KHÓA =====
+        function hideKeywords() {
+            const grid = document.getElementById('keywordsGrid');
+            const timerElement = document.getElementById('timer');
+            
+            // Ẩn lưới từ khóa
+            grid.classList.remove('visible');
+            
+            // Ẩn đồng hồ đếm ngược
+            timerElement.classList.remove('visible', 'pulse');
+            
+            // Reset trạng thái game
+            setTimeout(() => {
+                grid.innerHTML = ''; // Xóa tất cả thẻ
+                timerElement.textContent = '';
+                isGameRunning = false;
+                
+                // Kích hoạt lại nút bấm
+                const button = document.getElementById('startButton');
+                button.disabled = false;
+                button.textContent = '🔄 CHƠI LẠI (10 GIÂY)';
+            }, 500);
+        }
+
+        // ===== HÀM BẮT ĐẦU TRÒ CHƠI =====
+        function startGame() {
+            // Ngăn không cho bấm nút khi game đang chạy
+            if (isGameRunning) return;
+            
+            isGameRunning = true;
+            const button = document.getElementById('startButton');
+            button.disabled = true;
+
+            // Tạo và hiển thị từ khóa
+            createKeywordsGrid();
+            
+            // Hiển thị lưới từ khóa
+            const grid = document.getElementById('keywordsGrid');
+            setTimeout(() => {
+                grid.classList.add('visible');
+            }, 100);
+
+            // Bắt đầu đếm ngược
+            startCountdown();
+        }
+
+        // ===== HÀM TOGGLE ĐÁP ÁN =====
+        // Hiển thị hoặc ẩn khu vực đáp án khi bấm nút
+        function toggleAnswer() {
+            const answerSection = document.getElementById('answerSection');
+            const button = document.getElementById('answerButton');
+            
+            if (answerSection.classList.contains('visible')) {
+                // Đang hiển thị -> Ẩn đi
+                answerSection.classList.remove('visible');
+                button.textContent = '📝 XEM ĐÁP ÁN';
+            } else {
+                // Đang ẩn -> Hiển thị
+                answerSection.classList.add('visible');
+                button.textContent = '❌ ẨN ĐÁP ÁN';
+                
+                // Cuộn xuống khu vực đáp án
+                setTimeout(() => {
+                    answerSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            }
+        }
+
+        // ===== HÀM TOGGLE VIDEO =====
+        // Hiển thị hoặc ẩn video player khi bấm nút
+        function toggleVideo() {
+            const videoSection = document.getElementById('videoSection');
+            const videoPlayer = document.getElementById('videoPlayer');
+            const button = document.getElementById('videoButton');
+            
+            if (videoSection.classList.contains('visible')) {
+                // Đang hiển thị -> Ẩn đi và dừng video
+                videoSection.classList.remove('visible');
+                videoPlayer.pause();
+                button.textContent = '🎬 XEM VIDEO ĐỘNG LỰC';
+            } else {
+                // Đang ẩn -> Hiển thị
+                videoSection.classList.add('visible');
+                button.textContent = '❌ ĐÓNG VIDEO';
+                
+                // Cuộn xuống khu vực video
+                setTimeout(() => {
+                    videoSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            }
+        }
+
+        // ===== SỰ KIỆN KHI TẢI TRANG =====
+        // Thực hiện khi trang web được tải xong
+        window.addEventListener('load', () => {
+            console.log('Trang web đã sẵn sàng!');
+            console.log('Tổng số từ khóa:', keywords.length);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRANG 3: XEM VIDEO ĐỘNG LỰC</title>
+    <style>
+        /* ===== THIẾT LẬP CHUNG ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #8e44ad 0%, #3498db 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* ===== CONTAINER CHÍNH ===== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ===== TIÊU ĐỀ ===== */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease-in;
+        }
+
+        .main-title {
+            font-size: 3em;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5),
+                         3px 3px 6px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #f0f0f0;
+            font-style: italic;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ===== VIDEO SECTION ===== */
+        .video-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 50px;
+            border-radius: 25px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+            animation: zoomIn 0.8s ease;
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .video-section h2 {
+            text-align: center;
+            color: #8e44ad;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-description {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            background: #000;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            border: 5px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .video-container video {
+            width: 100%;
+            display: block;
+        }
+
+        .video-note {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 1em;
+            margin-top: 20px;
+            font-style: italic;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        /* ===== CONTROLS INFO ===== */
+        .controls-info {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .controls-info h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .controls-info p {
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+
+        /* ===== NAVIGATION MENU ===== */
+        .nav-menu {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .nav-button {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 15px 40px;
+            margin: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 30px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ===== HIỆU ỨNG ===== */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2em;
+            }
+
+            .video-section {
+                padding: 25px;
+            }
+
+            .video-section h2 {
+                font-size: 1.8em;
+            }
+
+            .video-description {
+                font-size: 1em;
+            }
+
+            .nav-button {
+                display: block;
+                margin: 10px auto;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- TIÊU ĐỀ CHÍNH -->
+        <div class="header">
+            <h1 class="main-title">🌟 SIÊU TRÍ TUỆ 🌟</h1>
+            <h2 class="main-title" style="font-size: 2.2em;">TƯ TƯỞNG HỒ CHÍ MINH</h2>
+            <p class="subtitle">✨ TRANG 3: VIDEO ĐỘNG LỰC ✨</p>
+        </div>
+
+        <!-- VIDEO SECTION -->
+        <div class="video-section">
+            <h2>🎬 VIDEO ĐỘNG LỰC - HỌC TẬP VÀ LÀM THEO BÁC</h2>
+            
+            <div class="video-description">
+                <p>
+                    🎥 <strong>Cùng xem video truyền cảm hứng về học tập và làm theo tư tưởng, đạo đức, phong cách Hồ Chí Minh</strong><br>
+                    💪 Hãy biến những giá trị cao đẹp thành hành động cụ thể trong cuộc sống!
+                </p>
+            </div>
+
+            <div class="video-container">
+                <video id="videoPlayer" controls>
+                    <source src="Dongluc.mp4" type="video/mp4">
+                    Trình duyệt của bạn không hỗ trợ video HTML5.
+                </video>
+            </div>
+
+            <div class="video-note">
+                ⚠️ <strong>Lưu ý:</strong> Nếu video không phát, hãy đảm bảo file <strong>Dongluc.mp4</strong> được đặt cùng thư mục với file HTML này.
+            </div>
+
+            <div class="controls-info">
+                <h3>📌 HƯỚNG DẪN SỬ DỤNG</h3>
+                <p>
+                    ▶️ Bấm nút <strong>Play</strong> để xem video<br>
+                    🔊 Điều chỉnh âm lượng bằng thanh Volume<br>
+                    ⏯️ Tạm dừng/Tiếp tục bất cứ lúc nào<br>
+                    🖥️ Bấm nút <strong>Fullscreen</strong> để xem toàn màn hình
+                </p>
+            </div>
+        </div>
+
+        <!-- MENU ĐIỀU HƯỚNG -->
+        <div class="nav-menu">
+            <a href="trang1-tu-khoa.html" class="nav-button">🚀 TRANG 1: HIỆN TỪ KHÓA</a>
+            <a href="trang2-dap-an.html" class="nav-button">📝 TRANG 2: XEM ĐÁP ÁN</a>
+        </div>
+    </div>
+
+    <script>
+        // ===== AUTO FOCUS VIDEO KHI TẢI TRANG =====
+        window.addEventListener('load', () => {
+            console.log('TRANG 3: Video player đã sẵn sàng!');
+            
+            // Scroll mượt đến video
+            const videoSection = document.querySelector('.video-section');
+            setTimeout(() => {
+                videoSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 500);
+        });
+
+        // ===== XỬ LÝ LỖI VIDEO =====
+        const video = document.getElementById('videoPlayer');
+        video.addEventListener('error', function() {
+            alert('⚠️ Không thể tải video!\n\nHãy đảm bảo file "Dongluc.mp4" được đặt cùng thư mục với file HTML này.');
+        });
+    </script>
+</body>
+</html>
